@@ -1,0 +1,10 @@
+{
+  "name": "mapping-community-mappers",
+  "version": "0.1.0",
+  "scripts": {
+    "bin": "../../bin/hypermapper"
+  },
+  "private": "true",
+  "author": "John Williams",
+  "dependencies": {}
+}
