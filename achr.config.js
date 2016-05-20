@@ -7,30 +7,23 @@ module.exports = function(utils, dir) {
   const _ = u.libs.lodash;
 
   const graphdb = u.graphdb(path.join(__dirname, 'db'));
-
-  const crawler = {
-    interval: 250,
-    maxConcurrency: 40,
-    supportedMimeTypes: [/^text\/html/i],
-    downloadUnsupported: false,
-    timeout: 80000,
-    parseScriptTags: false,
-    parseHTMLComments: false,
-    maxDepth: 5,
-    allowInitialDomainChange: true,
-    filterByDomain: false,
-    scanSubdomains: true,
-    // Custom fetch conditions config
-    domainBlacklist: u.alexa500,
-    maxSiteDepth: 3,
-    fetchIgnoreRegex: /\.(pdf|css|js|gif|jpg|jpeg|png)$/i
-  };
+  const frozone = path.join(__dirname, 'freezer', 'achr.net') + '.json',
 
   const crawl = {
     domain: "achr.net",
-    defrost: path.join(__dirname, 'freezer', 'achr.net') + '.json',
-    freeze: path.join(__dirname, 'freezer', 'achr.net')+'.json', 
-    crawler,
+    defrost: frozone,
+    freeze: frozone, 
+    crawler: {
+      interval: 250,
+      maxConcurrency: 40,
+      timeout: 80000,
+      maxDepth: 5,
+      // Custom options
+      onlyHypertext: true,
+      onlyVisible: true,
+      followExternal: true,
+      domainBlacklist: u.alexa500
+    },
     on: {
       "fetchcomplete": function(queueItem, data, res) {
         var waiting = this.wait();
@@ -60,17 +53,6 @@ module.exports = function(utils, dir) {
       // "fetchtimeout": updateBroken,
       "crawlstart": () => {
         console.log("Started crawler!");
-      }
-    },
-    fetchConditions: {
-      "domainBlacklist": function(parsedURL, queueItem) {
-        return !crawler.domainBlacklist.some((bad) => u.noSub(parsedURL.host) === bad);
-      },
-      "maxSiteDepth": function(parsedURL, queueItem) {
-        return parsedURL.path.split(/\/|\?|\&/).length < crawler.maxSiteDepth;
-      },
-      "fetchIgnoreRegex": function(parsedURL, queueItem) {
-        return !parsedURL.path.match(crawler.fetchIgnoreRegex);
       }
     }
   };

@@ -2,7 +2,8 @@
   "name": "mapping-community-mappers",
   "version": "0.1.0",
   "scripts": {
-    "bin": "../../bin/hypermapper"
+    "crawl": "../../bin/hypermapper crawl achr.config.js",
+    "viz": "../../bin/hypermapper viz achr.config.js"
   },
   "private": "true",
   "author": "John Williams",
