@@ -2,10 +2,18 @@
   "name": "mapping-community-mappers",
   "version": "0.1.0",
   "scripts": {
-    "crawl": "../../bin/hypermapper crawl achr.config.js",
-    "viz": "../../bin/hypermapper viz achr.config.js"
+    "crawl": "node src/crawl.js",
+    "test": "./node_modules/.bin/mocha ./src/test.js"
   },
   "private": "true",
   "author": "John Williams",
-  "dependencies": {}
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "expect.js": "^0.3.1",
+    "level": "^1.4.0",
+    "levelgraph": "^1.2.0",
+    "lodash": "^4.13.1",
+    "mocha": "^2.5.3",
+    "simplecrawler": "^0.7.0"
+  }
 }
